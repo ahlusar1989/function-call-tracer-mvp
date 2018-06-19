@@ -8,7 +8,7 @@ import (
 // See tests in tracer package for more advanced usage
 var Exit, Enter = tracer.NewFunctionTracer(nil)
 // Or...
-// var Exit, Enter = tracey.New(nil)
+// var Exit, Enter = tracer.NewFunctionTracer(nil)
 
 func foo(i int) {
     // #FN will get replaced with the function's name
