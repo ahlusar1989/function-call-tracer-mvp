@@ -28,7 +28,7 @@ func Foo() {
  // However, the first of such is expected to be a format string, 
 // otherwise the function just logs the function's name. If a 
 // format string is specified with a $#FN token, then said token is 
-// replaced for the actual function's name.
+// replaced with the actual function's name.
 
 func main() {
     defer Exit(Enter())

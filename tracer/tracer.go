@@ -70,15 +70,15 @@ func NewFunctionTracer(opts *TracerConfiguration) (func(string), func(...interfa
 		options.CustomLogger = log.New(os.Stdout, "", 0)
 	}
 
-	// Use reflect to extrapolate "default" values for the
+	// Use reflect to extract default values for the
 	// Entering and Exiting messages (if they are not set)
-	reflectedType := reflect.TypeOf(options)
+	reflectedTypes := reflect.TypeOf(options)
 	if options.EnterMessage == "" {
-		field, _ := reflectedType.FieldByName("EnterMessage")
+		field, _ := reflectedTypes.FieldByName("EnterMessage")
 		options.EnterMessage = field.Tag.Get("default")
 	}
 	if options.ExitMessage == "" {
-		field, _ := reflectedType.FieldByName("ExitMessage")
+		field, _ := reflectedTypes.FieldByName("ExitMessage")
 		options.ExitMessage = field.Tag.Get("default")
 	}
 
@@ -87,7 +87,7 @@ func NewFunctionTracer(opts *TracerConfiguration) (func(string), func(...interfa
 	if options.DisableNesting {
 		options.SpacesPerIndent = 0
 	} else if options.SpacesPerIndent == 0 {
-		field, _ := reflectedType.FieldByName("SpacesPerIndent")
+		field, _ := reflectedTypes.FieldByName("SpacesPerIndent")
 		options.SpacesPerIndent, _ = strconv.Atoi(field.Tag.Get("default"))
 	}
 
@@ -124,6 +124,7 @@ func NewFunctionTracer(opts *TracerConfiguration) (func(string), func(...interfa
 		fnName := "<unknown>"
 		pc, _, _, ok := runtime.Caller(1)
 		if ok {
+			// match on text for the fist submatch
 			fnName = regexPredecessor.ReplaceAllString(runtime.FuncForPC(pc).Name(), "$1")
 		}
 
